@@ -51,6 +51,13 @@ return [
     */
 
     'channels' => [
+
+        'stars' => [
+            'driver' => 'stars',
+            'name' => 'stars',
+            'channels' => ['single'],
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],
