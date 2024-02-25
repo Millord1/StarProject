@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string("first_name", 50);
-            $table->string("second_name", 50);
-            $table->string("img_path", 100);
+            $table->string("last_name", 50);
+            $table->string("img_path");
             $table->longText("description");
         });
     }
