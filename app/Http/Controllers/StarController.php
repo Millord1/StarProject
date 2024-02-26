@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Star;
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
@@ -91,9 +92,17 @@ class StarController extends Controller
         }
 
         // Save new record and verify there is no error
-        $star = new Star($request->all());
-        if(!$star->save()){
-            $this->logger->error('Error while saving data: '.$request->all());
+        $star = new Star();
+        $star->first_name = $request->first_name;
+        $star->last_name = $request->last_name;
+        $star->img_path = $request->img_path;
+        $star->description = $request->description;
+
+        try {
+            // try to save
+            $star->save();
+        }catch (QueryException $e){
+            $this->logger->error($e->getMessage());
             return new Response('', 500);
         }
 
@@ -150,8 +159,9 @@ class StarController extends Controller
             return new Response($e->getMessage(), 400);
         }
 
-        // update and save
+        // We can't modify first_name and last_name values because these properties are not fillable
         $star->update($request->all());
+        // update and save
         if(!$star->save()){
             $this->logger->error('Error while saving data: '.$request->all());
             return new Response('', 500);
