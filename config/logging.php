@@ -53,9 +53,9 @@ return [
     'channels' => [
 
         'stars' => [
-            'driver' => 'stars',
-            'name' => 'stars',
-            'channels' => ['single'],
+            'driver' => 'single',
+            'path' => storage_path('logs/stars.log'),
+            'level' => 'info',
         ],
 
         'stack' => [

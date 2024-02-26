@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string("last_name", 50);
             $table->string("img_path");
             $table->longText("description");
+
+            // make each star unique by first and last name
+            $table->unique(['first_name', 'last_name']);
         });
     }
 

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Star extends Model
 {
@@ -46,5 +48,21 @@ class Star extends Model
     public function getImgPath(): string
     {
         return $this->img_path;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Star
+     * @throws Exception
+     */
+    public static function getFromId(int $id): Star
+    {
+        /** @var Star $star */
+        $star = Star::all()->where('id', '=', $id)->first();
+        if(empty($star)){
+            throw new Exception("Star not found from id $id");
+        }
+        return $star;
     }
 }
