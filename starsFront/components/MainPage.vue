@@ -26,6 +26,8 @@
 
       </b-collapse>
     </div>
+
+
   </div>
 </template>
 
@@ -46,6 +48,7 @@ export default {
         console.error(error);
       }
     },
+
   },
 
   beforeMount() {

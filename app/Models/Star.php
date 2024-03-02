@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Star extends Model
 {
@@ -60,7 +61,7 @@ class Star extends Model
     {
         /** @var Star $star */
         $star = Star::all()->where('id', '=', $id)->first();
-        if(empty($star)){
+        if(is_null($star)){
             throw new Exception("Star not found from id $id");
         }
         return $star;
