@@ -1,5 +1,5 @@
 <template>
-  <MainPage/>
+  <AdminPage/>
 </template>
 
 <script lang="ts">

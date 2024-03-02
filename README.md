@@ -1,3 +1,5 @@
+# Backend
+
 Install dependencies
 > composer require
 
@@ -9,3 +11,12 @@ seed the database with fake data
 
 start server
 > php artisan serve
+
+
+# Frontend
+
+> cd starsFront
+
+> npm install
+
+> npm run dev

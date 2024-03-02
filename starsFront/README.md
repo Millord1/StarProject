@@ -1,4 +1,4 @@
-# starsFront
+# stars-front
 
 ## Build Setup
 

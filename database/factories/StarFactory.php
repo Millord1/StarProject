@@ -22,7 +22,7 @@ class StarFactory extends Factory
         return [
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'img_path' => fake()->image(),
+            'img_path' => fake()->image(base_path('starsFront\\static')),
             'description' => fake()->text(),
         ];
     }

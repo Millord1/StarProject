@@ -61,6 +61,10 @@ class StarController extends Controller
             return new Response('', 404);
         }
 
+        $starColl->each(function ($item){
+            $item->img = substr($item->img_path, strrpos($item->img_path, '\\') + 1);
+        });
+
         return new Response($starColl->toArray(), 200);
     }
 

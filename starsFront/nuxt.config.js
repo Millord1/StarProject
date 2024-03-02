@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'starsFront',
+    title: 'stars-front',
     htmlAttrs: {
       lang: 'en'
     },
@@ -35,11 +35,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/axios'
+    'bootstrap-vue/nuxt',
   ],
-  axios: {
-    baseURL: process.env.APP_URL
-  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
