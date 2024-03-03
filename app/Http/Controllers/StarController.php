@@ -62,10 +62,20 @@ class StarController extends Controller
         }
 
         $starColl->each(function ($item){
-            $item->img = substr($item->img_path, strrpos($item->img_path, '\\') + 1);
+            $item->img = $this->getImgName($item->img_path);
         });
 
         return new Response($starColl->toArray(), 200);
+    }
+
+    /**
+     * @param string $imgPath
+     *
+     * @return string
+     */
+    private function getImgName(string $imgPath): string
+    {
+        return substr($imgPath, strrpos($imgPath, '\\') + 1);
     }
 
     /**
@@ -118,6 +128,8 @@ class StarController extends Controller
             $this->logger->error($e->getMessage());
             return new Response('', 404);
         }
+
+        $star->img = $this->getImgName($star->img_path);
 
         return new Response($star->toArray());
     }

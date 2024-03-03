@@ -2,7 +2,14 @@
 
   <div class="d-flex flex-column align-items-center">
 
-    <b-card-group deck v-for="star in this.stars" class="m-1 col-6">
+    <b-button
+      class="mt-4 mb-4 col-3"
+      @click="redirectToForm(null)"
+      variant="success">
+      Create a new star
+    </b-button>
+
+    <b-card-group deck v-for="star in this.stars" class="m-1 col-4">
 
       <b-card no-body class="overflow-hidden" style="max-width: 540px;">
         <b-row no-gutters>
@@ -17,6 +24,7 @@
               </b-card-text>
               <b-button-group>
                 <b-button
+                  @click="redirectToForm(star.id)"
                   class="mt-auto"
                   variant="primary">
                   Edit
@@ -66,6 +74,7 @@
 </template>
 
 <script>
+
 export default {
 
   name: 'stars',
@@ -84,6 +93,7 @@ export default {
     },
 
     async actionDelete(id) {
+      alert('You are about to delete a star !')
       const resp = await fetch('http://localhost:8000/api/stars/'+id, { method: 'DELETE' })
       if(resp.status !== 200) {
         console.error(resp.status)
@@ -91,17 +101,10 @@ export default {
       window.location.reload()
     },
 
-    // name: 'starToDelete',
-    // props: {
-    //   star: {}
-    // },
-
-    // showModal(star) {
-    //   this.starToDelete = star
-    //   console.log(this.starToDelete)
-    //   this.$bvModal.show("modal-delete-star");
-    // }
-
+    async redirectToForm(id) {
+      // window.location = '/form/' + id
+      await this.$router.push({ name:'form', params:{id:id} })
+    },
   },
 
   beforeMount() {
