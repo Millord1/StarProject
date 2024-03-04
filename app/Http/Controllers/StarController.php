@@ -15,10 +15,12 @@ class StarController extends Controller
 {
     // Create a specific log file for errors
     private LoggerInterface $logger;
+    private string $baseImgPath;
 
     public function __construct()
     {
         $this->logger = Log::channel('stars');
+        $this->baseImgPath = base_path('starsFront\\static\\');
     }
 
     /**
@@ -97,10 +99,10 @@ class StarController extends Controller
 
         // Save new record and verify there is no error
         $star = new Star();
-        $star->first_name = $request->first_name;
-        $star->last_name = $request->last_name;
-        $star->img_path = $request->img_path;
-        $star->description = $request->description;
+        $star->first_name = $request->input('first_name');
+        $star->last_name = $request->input('last_name');
+        $star->img_path = $this->baseImgPath.$request->input('img');
+        $star->description = $request->input('description');
 
         try {
             // try to save
@@ -144,6 +146,7 @@ class StarController extends Controller
      */
     public function update(Request $request, int $id): Response
     {
+        $this->logger->info($request->input('first_name'));
         try {
             // validate form
             $request = $this->validateStarRequest($request);
@@ -155,9 +158,16 @@ class StarController extends Controller
         }
 
         // We can't modify first_name and last_name values because these properties are not fillable
-        $star->update($request->all());
+        $star->first_name = $request->input('first_name');
+        $star->last_name = $request->input('last_name');
+        $star->description = $request->input('description');
+        $star->img_path = $this->baseImgPath.$request->input('img');
+
+        $saved = $star->save();
+        $this->logger->info($saved);
+
         // update and save
-        if(!$star->save()){
+        if(!$saved){
             $this->logger->error('Error while saving data: '.$request->all());
             return new Response('', 500);
         }

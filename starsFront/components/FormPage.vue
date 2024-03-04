@@ -40,27 +40,64 @@
 
       <b-button type="submit" variant="primary">Submit</b-button>
     </b-form>
-<!--    <b-card class="mt-3" header="Form Data Result">-->
-<!--      <pre class="m-0">{{ form }}</pre>-->
-<!--    </b-card>-->
   </div>
 </template>
 
 <script>
+
 export default {
   data() {
     return {
-      star: {},
+      star: {
+        'first_name': "",
+        'last_name': "",
+        'img': "",
+        'description': ""
+      },
       id: null
     }
   },
   methods: {
-    onSubmit(event) {
+    async onSubmit(event) {
       event.preventDefault()
-      alert(JSON.stringify(this.star))
+
+      try {
+        // define if we have to create or update from the same form
+        const send = typeof this.star.id == 'undefined' ? await this.createStar() : await this.updateStar()
+        if(send.status !== 200){
+          console.error("Error while sending update: "+send.status)
+        }
+
+      }catch (err){
+        console.error(err)
+      }
+    },
+
+    async createStar(){
+      // POST method to create a star, actually I have an issue with cors policy
+      // apparently this method should be send by a proxy
+      await fetch('http://localhost:8000/api/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.star),
+      })
+    },
+
+    async updateStar(){
+      // update call with the form data
+      return await fetch('http://localhost:8000/api/stars/'+this.star.id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.star),
+      })
     },
 
     getDefaultValue(prop, defaultPlaceHolder){
+      // return the actual values for a star
       if(Object.keys(this.star).length > 0){
         return this.star[prop]
       }
@@ -68,6 +105,7 @@ export default {
     },
 
     async getStarData() {
+      // if the user wants to modify, we show the actual data of the star
       try {
         const response = await fetch('http://localhost:8000/api/stars/' + this.id);
         this.star = await response.json()
@@ -79,7 +117,7 @@ export default {
 
   async mounted() {
     this.id = this.$route.params.id
-    if (this.id !== null){
+    if (typeof this.id !== 'undefined'){
       await this.getStarData()
     }
   }

@@ -45,16 +45,7 @@
 
     </b-card-group>
 
-<!--    <b-modal-->
-<!--      scrollable-->
-<!--      id="modal-delete-star"-->
-<!--      centered-->
-<!--      @ok="actionDelete(this.starToDelete.id)"-->
-<!--      class="d-block text-center"-->
-<!--      title="Do you really want to delete this star ?"-->
-<!--    >-->
-<!--      Confirm that you are about to delete this star-->
-<!--    </b-modal>-->
+<!--  I wanted to add a modal here but I had issue to send data from the button and get it inside the modal  -->
 
 <!--    <b-modal-->
 <!--       v-if="this.starToDelete"-->
@@ -84,8 +75,9 @@ export default {
 
   methods: {
     async fetchData() {
+      // get data from API to have all existing stars
       try {
-        const response = await fetch('http://localhost:8000/api/stars');
+        const response = await fetch('http://localhost:8000/api/stars')
         this.stars = await response.json();
       } catch (error) {
         console.error(error);
@@ -93,6 +85,7 @@ export default {
     },
 
     async actionDelete(id) {
+      // basic delete a star
       alert('You are about to delete a star !')
       const resp = await fetch('http://localhost:8000/api/stars/'+id, { method: 'DELETE' })
       if(resp.status !== 200) {
@@ -102,7 +95,7 @@ export default {
     },
 
     async redirectToForm(id) {
-      // window.location = '/form/' + id
+      // redirect on form page
       await this.$router.push({ name:'form', params:{id:id} })
     },
   },
