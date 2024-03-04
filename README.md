@@ -41,6 +41,6 @@ The admin page:
 > http://localhost:3000/admin
 
 ### Issues:
-* On frontend I had issue to create a new star because of the POST route from js fetch method
+* On frontend I had issue to create a new star because of the POST route from js fetch method (The backend API itself is working)
 * Apparently I would need a proxy to send the request from a third party
 * I tried to add a cors as middleware to the backend routes but it was not working
